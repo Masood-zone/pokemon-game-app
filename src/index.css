@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap");
+
+body,
+html {
+  font-family: "Comic Neue", cursive;
+  height: 100vh;
+  background-image: url("./assets/images/pokemon-theme.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
