@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Card from "./components/Cards/Card";
-import { pokemonCards } from "./components/pokemonData";
+import { generatePokemonCards } from "./utils/generatePokemonCards";
 
 const GAME_DELAY = 1000;
 function App() {
@@ -15,24 +15,11 @@ function App() {
     setTimeout(() => {
       setStartFlip(false);
     }, GAME_DELAY);
-    reArrangeCards();
+    generatePokemonCards().then((generatedCards) => {
+      setCards(generatedCards);
+      setDisabled(false);
+    });
   }, []);
-
-  function reArrangeCards() {
-    const shuffledCards = [...pokemonCards, ...pokemonCards]
-      .sort(() => Math.random() - 0.5)
-      .map((card) => ({ ...card, id: Math.random() }));
-
-    setChoiceOne(null);
-    setChoiceTwo(null);
-    setCards(shuffledCards);
-    setTurn(0);
-    setDisabled(false);
-    setStartFlip(true);
-    setTimeout(() => {
-      setStartFlip(false);
-    }, GAME_DELAY);
-  }
 
   const handleChoice = (card) => {
     choiceOne
@@ -73,7 +60,16 @@ function App() {
     <div className="flex flex-col items-center justify-center pt-5 gap-10 ">
       <button
         className="hover:cursor-pointer hover:brightness-75 py-3 px-3 border-2 border-white bg-blue-700 text-white"
-        onClick={reArrangeCards}
+        onClick={() => {
+          setStartFlip(true);
+          generatePokemonCards().then((generatedCards) => {
+            setCards(generatedCards);
+            setDisabled(false);
+            setTimeout(() => {
+              setStartFlip(false);
+            }, GAME_DELAY);
+          });
+        }}
       >
         New Game
       </button>
